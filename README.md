@@ -8,6 +8,7 @@ By using:
 * `pinModeFast(pinNum, mode)` (sets pin/port as input or output faster)
 * `digitalReadFast(pinNum)`(reads the state of pin/port faster) 
 
+
 * `pinNum` is the number written on the Arduino board.
 * `state` is weather pin is to be set `HIGH` or `LOW`
 * `mode` is weather pin is to be set `INPUT` or `OUTPUT`
