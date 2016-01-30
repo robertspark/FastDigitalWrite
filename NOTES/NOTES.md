@@ -18,7 +18,8 @@ void loop() {
 }
 ```
 
-The above did not result in 50% duty cycle. (see Graph1.png)
+The above did not result in 50% duty cycle. 
+![Graph 1](/graphs/1.png)
 
 Rather, the pin stays low for quite some time until the program loops again. 
 
@@ -42,7 +43,7 @@ void loop() {
 ```
 
 It only took 250ns to toggle, meaning it took only 250ns/2= **125ns** to set or clear the pin/port.
-(See Graph2.png)
+![Graph 2](/graphs/2.png)
 
 ###### speed of digitalWrite:
 
@@ -52,5 +53,5 @@ It took 12.56us to toggle, meaning it took 12.56us/2= **6280ns** to set or clear
 
 **50 times slower than direct port manipulation!**
 
-(See Graph3.png)
+![Graph 3](/graphs/3.png)
 
