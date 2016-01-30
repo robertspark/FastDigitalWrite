@@ -14,7 +14,7 @@ By using:
 `mode` is weather pin is to be set `INPUT` or `OUTPUT`
 
 
-The regular `digitalWrite()` in Arduino Uno core takes about 6280nS while direct port manipulation takes 125nS.
+The regular `digitalWrite()` in Arduino Uno core takes about **6280nS** while `digitalWriteFast()` port manipulation takes **125nS**.
 > More info in: [/NOTES/NOTES.md](/NOTES/NOTES.md)
 
 This is a huge difference, especially or timing sensitive applications.
