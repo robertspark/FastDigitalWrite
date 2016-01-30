@@ -25,6 +25,7 @@
 #define SWAP(x,y) do{ (x)=(x)^(y); (y)=(x)^(y); (x)=(x)^(y); }while(0)
 #endif
 
+/* //not needed, rather it produces annoying warnings when compiled
 #ifndef DEC
 # define DEC (10)
 #endif
@@ -37,7 +38,7 @@
 #ifndef BIN
 # define BIN (2)
 #endif
-
+*/
 
 // workarounds for ARM microcontrollers
 #if (!defined(__AVR__) || defined(ARDUINO_ARCH_SAM))
@@ -300,8 +301,12 @@
 //#endif  //#ifndef digitalPinToPortReg
 
 
+
 #ifndef digitalWriteFast
 #if (defined(__AVR__) || defined(ARDUINO_ARCH_AVR))
+#define digitalWriteSlow(P, V) \
+ digitalWrite((P), (V)); \
+ OutputsErrorIfCalled(); 
 #define digitalWriteFast(P, V) \
 if (__builtin_constant_p(P) && __builtin_constant_p(V)) { \
   BIT_WRITE(*__digitalPinToPortReg(P), __digitalPinToBit(P), (V)); \

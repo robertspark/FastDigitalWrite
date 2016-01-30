@@ -1,4 +1,6 @@
 #define pinNum 9
+//int pinNum = 9; //for regular digitalWrite(), does matter constant or variable
+//const int pinNum = 9; //this is a constant
 
 void setup() {
   pinMode(pinNum, OUTPUT);

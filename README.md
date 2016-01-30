@@ -1,20 +1,30 @@
 # digitalWriteFast
-Arduino library for faster `digitalWrite()` using port manipulation and macro for ease in pin assignments. 
+Arduino library for faster `digitalWrite()` using direct port manipulation and macro for ease in pin assignments. 
 Which actually also does faster `pinMode()` and `digitalRead()`.
 
+## Usage
 By using:
 * `digitalWriteFast(pinNum, state)` (sets or clears pin/port faster) 
 * `pinModeFast(pinNum, mode)` (sets pin/port as input or output faster)
 * `digitalReadFast(pinNum)`(reads the state of pin/port faster) 
 
-`pinNum` is the number written on the Arduino board.
+* `pinNum` is the number written on the Arduino board.
+* `state` is weather pin is to be set `HIGH` or `LOW`
+* `mode` is weather pin is to be set `INPUT` or `OUTPUT`
 
-`state` is weather pin is to be set `HIGH` or `LOW`
+In order to toggle fast, all the three parameters above must be constant or defined by the macro for ease in changes during compilation.
 
-`mode` is weather pin is to be set `INPUT` or `OUTPUT`
+For example: 
+* use '#define pinNum 10' instead of `int pinNum = 10;`
+* use 'const int pinNum 10' instead of `int pinNum = 10;`
 
+Setting the parameter as a variable would cause the macro to revert back to the traditional `digitalWrite`, `pinMode` or `digitalRead` and operates more slowly. 
 
-The regular `digitalWrite()` in Arduino Uno core takes about **6280nS** while `digitalWriteFast()` port manipulation takes **125nS**.
+No error or warning will be thrown, but function works properly, without direct port manipualtion (slow). 
+
+## Speed
+
+The regular `digitalWrite()` in Arduino Uno core (16MHz) takes about **6280nS** while `digitalWriteFast()` port manipulation takes **125nS**.
 > More info in: [/NOTES/NOTES.md](/NOTES/NOTES.md)
 
 This is a huge difference, especially or timing sensitive applications.
