@@ -3,6 +3,9 @@ Arduino library for faster `digitalWrite()` using direct port manipulation and m
 Which actually also does faster `pinMode()` and `digitalRead()`.
 
 ## Usage
+Include the library:
+`#include <digitalWriteFast.h>`
+
 Macro definitions:
 * `digitalWriteFast(pinNum, state)` (sets or clears pin/port faster) 
 * `pinModeFast(pinNum, mode)` (sets pin/port as input or output faster)
@@ -19,9 +22,12 @@ For example:
 * use '#define pinNum 10' instead of `int pinNum = 10;`
 * use 'const int pinNum 10' instead of `int pinNum = 10;`
 
-Setting the parameter as a variable would cause the macro to revert back to the traditional `digitalWrite`, `pinMode` or `digitalRead` and operates more slowly. 
+Setting the parameter as a variable would cause the macro to return an error during compilation.
 
-No error or warning will be thrown, but function works properly, without direct port manipualtion (slow). 
+This makes sure `digitalWriteFast` that produces faster toggling, and notifies the programmer the specific area where toggling is slow. Otherwise, use normal `digitalWrite`
+
+This is opposed to the forked library form Watterott, where if a variable is used as the parameter, the macro would revert to use sold `digitalWrite`, and remain undetected.
+
 
 ## Speed
 
@@ -43,6 +49,11 @@ This library makes it easier by using `digitalWriteFast()` and the macro will re
 * Arduino Uno (I have only tested with uno)
 
 If not in the list, the macro will revert back to  `digitalWrite()`, `pinMode()` or `digitalRead()`
+
+## Installation
+1. Download the repo as zip, extract and place into Arduino IDE libraries folder.
+2. Rename "digitalWriteFast-master" to "digitalWriteFast" Arduino IDE does not accept dash character.
+
 
 ## Reference
 Fork of Watterott's https://github.com/watterott/Arduino-Libs/tree/master/digitalWriteFast

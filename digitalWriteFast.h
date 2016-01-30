@@ -301,20 +301,22 @@
 //#endif  //#ifndef digitalPinToPortReg
 
 
+//ref: http://forum.arduino.cc/index.php?topic=140409.msg1054868#msg1054868
+//void OutputsErrorIfCalled( void ) __attribute__ (( error( "Line: "__line__ "Variable used for digitalWriteFast") ));
+void NonConstantUsed( void ) __attribute__ (( error("") ));
+
 
 #ifndef digitalWriteFast
 #if (defined(__AVR__) || defined(ARDUINO_ARCH_AVR))
-#define digitalWriteSlow(P, V) \
- digitalWrite((P), (V)); \
- OutputsErrorIfCalled(); 
 #define digitalWriteFast(P, V) \
 if (__builtin_constant_p(P) && __builtin_constant_p(V)) { \
   BIT_WRITE(*__digitalPinToPortReg(P), __digitalPinToBit(P), (V)); \
 } else { \
-  digitalWrite((P), (V)); \
+  NonConstantUsed(); \
 }
 #else
-#define digitalWriteFast digitalWrite
+//#define digitalWriteFast digitalWrite
+#error Non-AVR device, unsupported.
 #endif
 #endif
 
@@ -325,10 +327,11 @@ if (__builtin_constant_p(P) && __builtin_constant_p(V)) { \
 if (__builtin_constant_p(P) && __builtin_constant_p(V)) { \
   BIT_WRITE(*__digitalPinToDDRReg(P), __digitalPinToBit(P), (V)); \
 } else { \
-  pinMode((P), (V)); \
+  NonConstantUsed(); \
 }
 #else
-#define pinModeFast pinMode
+//#define pinModeFast pinMode
+#error Non-AVR device, unsupported.
 #endif
 #endif
 
@@ -337,11 +340,14 @@ if (__builtin_constant_p(P) && __builtin_constant_p(V)) { \
 #if (defined(__AVR__) || defined(ARDUINO_ARCH_AVR))
 #define digitalReadFast(P) ( (int) __digitalReadFast((P)) )
 #define __digitalReadFast(P ) \
-  (__builtin_constant_p(P) ) ? ( \
-  ( BIT_READ(*__digitalPinToPINReg(P), __digitalPinToBit(P))) ) : \
-  digitalRead((P))
+if (__builtin_constant_p(P)) { \
+  BIT_READ(*__digitalPinToPINReg(P), __digitalPinToBit(P))); \
+} else { \
+  NonConstantUsed(); \
+}
 #else
-#define digitalReadFast digitalRead
+//#define digitalReadFast digitalRead
+#error Non-AVR device, unsupported.
 #endif
 #endif
 
