@@ -7,6 +7,7 @@
 #ifndef __digitalWriteFast_h_
 #define __digitalWriteFast_h_ 1
 
+#define ERROR_SEQUENCE 0b10101010 //digitalReadFast will return this value if pin number is not constant
 // general macros/defines
 #ifndef BIT_READ
 # define BIT_READ(value, bit)            ((value) &   (1UL << (bit)))
@@ -303,7 +304,7 @@
 
 //ref: http://forum.arduino.cc/index.php?topic=140409.msg1054868#msg1054868
 //void OutputsErrorIfCalled( void ) __attribute__ (( error( "Line: "__line__ "Variable used for digitalWriteFast") ));
-void NonConstantUsed( void ) __attribute__ (( error("") ));
+void NonConstantUsed( void )  __attribute__ (( error("") )); 
 
 
 #ifndef digitalWriteFast
@@ -338,13 +339,11 @@ if (__builtin_constant_p(P) && __builtin_constant_p(V)) { \
 
 #ifndef digitalReadFast
 #if (defined(__AVR__) || defined(ARDUINO_ARCH_AVR))
-#define digitalReadFast(P) ( (int) __digitalReadFast((P)) )
+#define digitalReadFast(P) ( (byte) __digitalReadFast((P)) )
 #define __digitalReadFast(P ) \
-if (__builtin_constant_p(P)) { \
-  BIT_READ(*__digitalPinToPINReg(P), __digitalPinToBit(P))); \
-} else { \
-  NonConstantUsed(); \
-}
+  (__builtin_constant_p(P) ) ? ( \
+  ( BIT_READ(*__digitalPinToPINReg(P), __digitalPinToBit(P))) ) : \
+  ERROR_SEQUENCE
 #else
 //#define digitalReadFast digitalRead
 #error Non-AVR device, unsupported.

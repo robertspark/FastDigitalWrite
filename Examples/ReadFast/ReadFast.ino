@@ -8,5 +8,9 @@ void setup() {
 }
 
 void loop() {
-  digitalReadFast(pinNum);
+  bool reading = digitalReadFast(pinNum);
+
+  if (reading == ERROR_SEQUENCE) { //ERROR_SEQUENCE  defined as 0b10101010
+    // pinNum is not a const and will always return as HIGH
+  }
 }
