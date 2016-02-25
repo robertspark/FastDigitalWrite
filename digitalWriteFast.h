@@ -304,7 +304,11 @@
 
 //ref: http://forum.arduino.cc/index.php?topic=140409.msg1054868#msg1054868
 //void OutputsErrorIfCalled( void ) __attribute__ (( error( "Line: "__line__ "Variable used for digitalWriteFast") ));
+<<<<<<< HEAD
 void NonConstantUsed( void )  __attribute__ (( error("") )); 
+=======
+void NonConstantUsed( void ) __attribute__ (( error("") ));
+>>>>>>> e7041584be4a269ff67f97465fe3b70721567ccb
 
 
 #ifndef digitalWriteFast
